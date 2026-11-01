@@ -1,0 +1,32 @@
+{
+  "name": "digital-dark-spot",
+  "version": "2.0.0",
+  "private": true,
+  "description": "AI-assisted information gap detection platform (Node.js, Express, PostgreSQL, Gemini)",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "node --watch backend/server.js",
+    "migrate": "node backend/migrate.js",
+    "db:init": "node backend/migrate.js",
+    "test": "node --test tests/logic.test.js tests/security.test.js tests/api.integration.test.js",
+    "test:unit": "node --test tests/logic.test.js tests/security.test.js"
+  },
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "cheerio": "^1.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "express-validator": "^7.2.1",
+    "helmet": "^8.0.0",
+    "ipaddr.js": "^2.2.0",
+    "pdfkit": "^0.16.0",
+    "pg": "^8.13.1",
+    "winston": "^3.17.0"
+  },
+  "devDependencies": {
+    "supertest": "^7.0.0"
+  }
+}

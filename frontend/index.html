@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Digital Dark Spot | Find What's Missing. Verify What Matters.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap" rel="stylesheet">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ===== Landing page (#home) ===== -->
+<div id="landing">
+<div class="stage">
+<header class="top"><b class="logo"><i class="fa-solid fa-magnifying-glass-chart"></i> Digital Dark Spot</b><nav><a href="#" data-scroll="features">Features</a><a href="#" data-scroll="how">How it works</a><a class="btn" href="#research">Start Research</a></nav></header>
+<section class="hero"><h1>DIGITAL DARK SPOT</h1><p class="tag">Find What's Missing. Verify What Matters.</p>
+<p class="lead">An AI-powered research intelligence platform that discovers information gaps, compares conflicting claims and identifies outdated information across multiple sources.</p>
+<a class="btn" href="#research">Start Research</a> <a class="btn ghost" href="#" data-scroll="features">Explore Features</a></section>
+</div>
+<section id="how" class="wrap"><h2>How it works</h2><ol class="steps"><li>Add up to six source URLs or paste text</li><li>Pages are fetched safely and cleaned</li><li>Gemini extracts claims with verbatim evidence</li><li>Gaps, conflicts and stale dates are flagged</li><li>Work through a checklist, export a PDF</li></ol></section>
+<section id="features" class="wrap"><h2>Core features</h2><div class="grid">
+<div class="card"><h3>Gap detection</h3><p>Shows what the reviewed sources do not answer, never claiming the information does not exist.</p></div>
+<div class="card"><h3>Conflict analysis</h3><p>Puts differing claims side by side, accounting for dates and context.</p></div>
+<div class="card"><h3>Freshness rules</h3><p>Category-specific limits: a scholarship deadline ages faster than a science article.</p></div>
+<div class="card"><h3>Evidence mapping</h3><p>Every finding links to its source and to text actually found there.</p></div>
+<div class="card"><h3>Coverage score</h3><p>Share of research questions with sufficient evidence. Not a truth score.</p></div>
+<div class="card"><h3>Verification checklist</h3><p>Tasks generated from gaps and conflicts, saved in PostgreSQL.</p></div></div></section>
+<section class="wrap"><h2>Why Digital Dark Spot?</h2><p class="lead2">Most AI tools give a confident answer. This one shows where the answer is thin, so you know what to verify.</p>
+<h2>Technology</h2><p class="lead2">Node.js, Express, PostgreSQL, Gemini, PDFKit, Chart.js, vanilla JavaScript. Built for SHINCHAN ONLINE HACKATHON 2026.</p></section>
+<footer>Digital Dark Spot &copy; 2026 &middot; AI-assisted research. Verify with official sources.</footer>
+</div>
+
+<!-- ===== App (#dashboard, #research, ...) ===== -->
+<div id="shell" hidden>
+  <aside id="side">
+    <a class="logo" href="#home" style="text-decoration:none;color:inherit"><i class="fa-solid fa-magnifying-glass-chart"></i> <span>Digital Dark Spot</span></a>
+    <nav id="nav" aria-label="Main">
+      <a href="#dashboard" data-k="dashboard"><i class="fa-solid fa-gauge"></i><span>Dashboard</span></a>
+      <a href="#research" data-k="research"><i class="fa-solid fa-circle-plus"></i><span>New Research</span></a>
+      <a href="#sources" data-k="sources"><i class="fa-solid fa-link"></i><span>My Sources</span></a>
+      <a href="#analysis" data-k="analysis"><i class="fa-solid fa-brain"></i><span>AI Analysis</span></a>
+      <a href="#gaps" data-k="gaps"><i class="fa-solid fa-circle-question"></i><span>Gap Analysis</span></a>
+      <a href="#conflicts" data-k="conflicts"><i class="fa-solid fa-code-compare"></i><span>Conflict Analysis</span></a>
+      <a href="#checklist" data-k="checklist"><i class="fa-solid fa-list-check"></i><span>Verification Checklist</span></a>
+      <a href="#reports" data-k="reports"><i class="fa-solid fa-file-pdf"></i><span>Research Reports</span></a>
+      <a href="#history" data-k="history"><i class="fa-solid fa-clock-rotate-left"></i><span>Research History</span></a>
+      <a href="#settings" data-k="settings"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+    </nav>
+    <button id="collapse" class="ghost" aria-label="Collapse sidebar"><i class="fa-solid fa-angles-left"></i></button>
+  </aside>
+  <main>
+    <button id="burger" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
+<section class="page" id="p-dashboard">
+    <header class="pagehead"><h1>Dashboard</h1><p>Live numbers from your saved research.</p></header>
+    <div id="v-dashboard"></div>
+</section>
+<section class="page" id="p-research">
+    <header class="pagehead"><h1>New research</h1><p>Add up to six sources or paste text. The analysis runs on exactly what you provide.</p></header>
+    <form id="rform" class="card" novalidate>
+<label for="t">Research topic</label><input id="t" maxlength="200" required>
+<label for="q">Research question</label><input id="q" required>
+<label for="c">Category</label><select id="c"><option>Education</option><option>Scholarships</option><option>Technology</option><option>Government Policies</option><option>Healthcare Information</option><option>Environment</option><option>Finance</option><option>Science</option><option>General Research</option><option>Other</option></select>
+<label for="d">Description (optional)</label><textarea id="d" rows="2"></textarea>
+<label>Source URLs (max 6)</label><div id="urls"></div><button type="button" class="ghost sm" id="add">Add URL</button>
+<label for="tx">Paste text (optional)</label><textarea id="tx" rows="4"></textarea>
+<label for="f">Upload .txt document (optional, 500 KB max; its text is placed in the box above)</label><input type="file" id="f" accept=".txt,text/plain">
+<p><button type="submit" id="go">Analyze research</button></p><div id="prog" aria-live="polite"></div></form>
+</section>
+<section class="page" id="p-sources">
+    <header class="pagehead"><h1>My sources</h1><p>Fetched pages, their category and extraction status.</p></header>
+    <div class="row card"><input id="nu" type="url" placeholder="Add URL (max 6)" aria-label="Add URL"><button id="au">Add source</button><button class="ghost" id="rr">Re-run analysis</button></div><div id="v-sources"></div>
+</section>
+<section class="page" id="p-analysis">
+    <header class="pagehead"><h1>AI analysis</h1><p>Summary, coverage, evidence and freshness signals for the open session.</p></header>
+    <div id="v-analysis"></div>
+</section>
+<section class="page" id="p-gaps">
+    <header class="pagehead"><h1>Gap analysis</h1><p>“Not found in reviewed sources” does not prove the information does not exist.</p></header>
+    <div id="v-gaps"></div>
+</section>
+<section class="page" id="p-conflicts">
+    <header class="pagehead"><h1>Conflict analysis</h1><p>Different values are not always contradictions. Check dates and context.</p></header>
+    <div id="v-conflicts"></div>
+</section>
+<section class="page" id="p-checklist">
+    <header class="pagehead"><h1>Verification checklist</h1><p>Tasks generated from gaps, conflicts and unanswered questions.</p></header>
+    <div class="bar" aria-hidden="true"><i id="pb" style="width:0"></i></div><p id="pt">0 of 0 completed</p>
+<p><button id="nt"><i class="fa-solid fa-plus" aria-hidden="true"></i> Add task</button></p>
+<div class="row"><select id="fp" aria-label="Priority"><option value="">All priorities</option><option>High</option><option>Medium</option><option>Low</option></select>
+<select id="fs" aria-label="Status"><option value="">All statuses</option><option>Pending</option><option>Completed</option></select></div><br><div id="v-checklist"></div>
+</section>
+<section class="page" id="p-reports">
+    <header class="pagehead"><h1>Research reports</h1><p>Download a PDF built from the analysis saved in the database for the open research.</p></header>
+    <div id="v-reports"></div>
+    <p><button id="gr"><i class="fa-solid fa-file-pdf" aria-hidden="true"></i> Download PDF report</button></p>
+</section>
+<section class="page" id="p-history">
+    <header class="pagehead"><h1>Research history</h1><p>Every session is saved in the database for this browser.</p></header>
+    <div class="row"><input id="hq" type="search" placeholder="Search topic or question" aria-label="Search"><select id="hc" aria-label="Category"><option value="">All categories</option><option>Education</option><option>Scholarships</option><option>Technology</option><option>Government Policies</option><option>Healthcare Information</option><option>Environment</option><option>Finance</option><option>Science</option><option>General Research</option><option>Other</option></select>
+<select id="hs" aria-label="Sort by date"><option value="newest">Newest first</option><option value="oldest">Oldest first</option></select></div><br><div id="v-history"></div>
+    <h2>Recent activity</h2><div id="v-activity"></div>
+</section>
+<section class="page" id="p-settings">
+    <header class="pagehead"><h1>Settings</h1><p>Your preferences and the service status. Settings are saved for this browser.</p></header>
+    <div class="cols">
+    <div class="card"><h3>Research and report preferences</h3>
+      <label for="sc-cat">Default research category</label><select id="sc-cat"></select>
+      <label for="sc-cap">Analysis: characters of each source sent to the AI (2000-30000)</label><input id="sc-cap" type="number" min="2000" max="30000" step="500">
+      <label class="inline"><input type="checkbox" id="sc-ev" style="width:auto"> Include the evidence references table in PDF reports</label>
+      <label class="inline"><input type="checkbox" id="sc-cl" style="width:auto"> Include the verification checklist in PDF reports</label>
+      <p><button id="sv">Save settings</button></p></div>
+    <div class="card"><h3>Application information</h3><div id="v-info"><div class="skel"></div></div></div></div>
+</section>
+  </main>
+</div>
+
+<dialog id="dlg" aria-modal="true"></dialog>
+<div id="toasts" aria-live="polite"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script src="js/api.js"></script>
+<script src="js/app.js"></script>
+<script src="js/fx.js"></script>
+</body>
+</html>
